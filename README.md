@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/Ramonvdo/penlight" alt="License" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/Ramonvdo/penlight?style=flat" alt="License" /></a>
   <a href="https://github.com/Ramonvdo/penlight/releases/latest"><img src="https://img.shields.io/github/v/release/Ramonvdo/penlight?include_prereleases" alt="Latest release" /></a>
   <a href="https://github.com/Ramonvdo/penlight/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ramonvdo/penlight/ci.yml?branch=main" alt="CI" /></a>
 </p>
