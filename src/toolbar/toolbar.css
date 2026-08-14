@@ -1,0 +1,130 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+}
+
+body {
+  font-family: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#toolbar {
+  position: fixed;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  background: rgba(14, 14, 16, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  color: #d9d9de;
+  white-space: nowrap;
+}
+
+.grip {
+  width: 20px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: grab;
+  margin-right: 2px;
+}
+
+.grip svg {
+  width: 10px;
+  height: 16px;
+  pointer-events: none;
+}
+
+button {
+  appearance: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: none;
+}
+
+button svg {
+  width: 19px;
+  height: 19px;
+  pointer-events: none;
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+button:active {
+  transform: scale(0.94);
+}
+
+button.active {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.dot {
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+}
+
+.dot span {
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.dot.active {
+  background: none;
+}
+
+.dot.active span {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.divider {
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.14);
+  margin: 0 6px;
+  flex: none;
+}
+
+.close {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.close:hover {
+  color: #fff;
+}

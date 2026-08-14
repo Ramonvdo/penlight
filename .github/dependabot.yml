@@ -1,0 +1,20 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  # The Rust manifest lives in src-tauri, not the repo root.
+  - package-ecosystem: cargo
+    directory: /src-tauri
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  # Keeps the SHA-pinned actions in ci.yml/release.yml fresh via PRs.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

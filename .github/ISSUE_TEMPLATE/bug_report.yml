@@ -1,0 +1,70 @@
+name: Bug report
+description: Something broke, rendered wrong, or didn't record correctly
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What went wrong, and what did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Press Ctrl+Alt+A
+        2. Draw with the highlighter
+        3. ...
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Penlight version
+      placeholder: v0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version and build
+      description: Run `winver` — e.g. "Windows 11 24H2 (26100.2314)"
+    validations:
+      required: true
+
+  - type: input
+    id: monitors
+    attributes:
+      label: Monitor setup
+      description: Count, resolutions, and DPI scaling — Penlight is heavily multi-monitor/DPI sensitive.
+      placeholder: "2 monitors: 2560x1440 @ 125%, 1920x1080 @ 100%"
+    validations:
+      required: true
+
+  - type: input
+    id: gpu
+    attributes:
+      label: GPU
+      description: Vendor and model (some Intel iGPUs need the GPU-compositing toggle).
+      placeholder: "NVIDIA RTX 3060 / Intel Iris Xe / AMD Radeon 780M"
+
+  - type: dropdown
+    id: gpu-compositing
+    attributes:
+      label: Is "Disable GPU compositing" enabled in Settings → General?
+      options:
+        - "No (default)"
+        - "Yes"
+        - "Not sure"
+
+  - type: textarea
+    id: recording
+    attributes:
+      label: Recording context (if relevant)
+      description: If the bug is about OBS or another capture tool, which capture mode were you using?
+      placeholder: "OBS 30.2, Display Capture, ..."
