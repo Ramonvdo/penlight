@@ -6,6 +6,50 @@ All notable changes to Penlight are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-08-21
+
+Drawing tablets and styluses now work, and freehand strokes match
+Excalidraw's feel.
+
+### Added
+
+- **Drawing tablet and stylus support.** Pen input previously produced no ink
+  at all; pens now draw with pressure, and a pen's eraser end erases while it
+  is touching and restores the previous tool when lifted.
+- **Pen pressure** setting (Settings → Annotate, on by default). Turn it off
+  for uniform-width strokes.
+- **Input diagnostics** setting (Settings → General): an opt-in overlay
+  showing live pointer type, pressure, buttons and event rate — for
+  troubleshooting a tablet that misbehaves. Inert when off.
+
+### Changed
+
+- Freehand strokes now use Excalidraw's freedraw tuning (thinning 0.6,
+  easeOutSine taper) with streamline chosen per stroke from the device — much
+  less smoothing lag for a pen or touch than for a mouse. Stroke options are
+  saved per stroke, so a reloaded whiteboard replays exactly as it was drawn
+  and strokes saved by 0.1.0 keep their original appearance.
+- A tap now leaves a dot, and a fast flick keeps its final point; both
+  previously produced nothing.
+- The minimum drag before a shape is committed is now measured in screen
+  pixels, so it behaves the same at every whiteboard zoom level.
+- Pen and touch input no longer trigger the native context menu (a barrel
+  button or press-and-hold used to pop it over your annotation).
+
+### Fixed
+
+- Pens drew nothing because the canvases allowed the OS to claim pen and
+  touch drags as pan/zoom gestures (`touch-action`).
+- A stroke ended as soon as the primary-button bit went clear, which pens
+  legitimately report mid-stroke (light pressure, lift-off, hover frames).
+  That guard is now mouse-only; pens end on pointer release, capture loss, or
+  focus loss instead.
+- Pointer buttons other than the main one were rejected outright, which
+  excluded the pen eraser end.
+- A palm touching the tablet mid-stroke could cancel the pen's stroke.
+- On a whiteboard, a barrel button mapped to middle-click no longer starts a
+  canvas pan.
+
 ## [0.1.0] - 2026-08-14
 
 First release.
@@ -80,4 +124,5 @@ First release.
   credentials not persisted, and a `SHA256SUMS.txt` attached to every release
   for download verification.
 
+[0.2.0]: https://github.com/Ramonvdo/penlight/releases/tag/v0.2.0
 [0.1.0]: https://github.com/Ramonvdo/penlight/releases/tag/v0.1.0

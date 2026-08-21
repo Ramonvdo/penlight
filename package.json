@@ -1,7 +1,7 @@
 {
   "name": "penlight",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Presentify-style live screen annotation for Windows — draw over anything, whiteboard, cursor halo, spotlight, live zoom.",
   "repository": {
     "type": "git",
