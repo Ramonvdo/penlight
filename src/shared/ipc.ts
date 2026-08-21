@@ -25,6 +25,7 @@ export const api = {
   boardRename: (id: string, name: string) => invoke<void>("board_rename", { id, name }),
   boardDelete: (id: string) => invoke<void>("board_delete", { id }),
   boardPanelToggle: () => invoke<void>("board_panel_toggle"),
+  isPackaged: () => invoke<boolean>("is_packaged"),
 };
 
 export function onBoardPanelToggle(cb: () => void): Promise<UnlistenFn> {

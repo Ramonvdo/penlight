@@ -118,6 +118,13 @@ pub fn board_delete(app: AppHandle, id: String) -> Result<(), String> {
     crate::boards::delete(&app, &id)
 }
 
+/// True in the Microsoft Store (MSIX) build — the settings UI uses this to
+/// explain that "launch at login" is managed by Windows there.
+#[tauri::command]
+pub fn is_packaged() -> bool {
+    crate::win32::is_packaged()
+}
+
 #[tauri::command]
 pub fn board_panel_toggle(app: AppHandle) {
     use tauri::Emitter;

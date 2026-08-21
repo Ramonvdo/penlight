@@ -4,3 +4,21 @@ src-tauri/target/
 src-tauri/gen/schemas/
 *.local
 .DS_Store
+
+# MSIX packaging — staged payload and the generated package
+dist-msix/
+*.msix
+*.msixbundle
+*.appx
+
+# Signing material — NEVER commit a certificate or private key
+*.pfx
+*.p12
+*.key
+*.cer
+devcert*
+
+# Store submission notes: listing copy, Partner Center identity, packaging runbook.
+STORE-NOTES.md
+# Generated Store artwork + composed listing screenshots (regenerate with scripts/store-assets.py).
+store-assets/

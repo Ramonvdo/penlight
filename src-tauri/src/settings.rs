@@ -389,6 +389,12 @@ pub fn update(app: &AppHandle, mut new_settings: Settings) {
 
 fn sync_autostart(app: &AppHandle, enable: bool) {
     use tauri_plugin_autostart::ManagerExt;
+    // MSIX virtualizes the Run key, so writing it would look like it worked and
+    // silently do nothing. The packaged build starts with Windows through the
+    // manifest's StartupTask, which the user enables in Windows Settings.
+    if crate::win32::is_packaged() {
+        return;
+    }
     let autolaunch = app.autolaunch();
     let result = if enable {
         autolaunch.enable()

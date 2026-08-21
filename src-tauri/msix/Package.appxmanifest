@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  MSIX manifest for the Microsoft Store build.
+
+  Tauri does not generate MSIX, so the Store package is built separately: the
+  release `penlight.exe` is staged into a layout folder alongside these assets
+  and packed with makeappx (see `npm run pack:msix`). The Store signs the
+  package on ingestion — no code-signing certificate is needed to submit.
+
+  ─────────────────────────────────────────────────────────────────────────────
+  The Identity values below are PLACEHOLDERS. Reserve the app name in Partner
+  Center, then copy the three values from
+  Partner Center > Product > Product identity into this file (they are not
+  secrets — they ship visible inside every installed copy — but they must match
+  Partner Center character-for-character or the upload is rejected).
+
+  Until then the package builds with a development identity: installable
+  locally for testing, rejected by Partner Center. `npm run pack:msix` prints
+  which mode it used.
+
+  MSIX_IDENTITY_NAME / MSIX_PUBLISHER / MSIX_PUBLISHER_DISPLAY_NAME override
+  these at pack time without editing the file.
+  ─────────────────────────────────────────────────────────────────────────────
+-->
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap uap5 rescap">
+
+  <Identity
+    Name="Penlight.Dev"
+    Publisher="CN=Penlight Development"
+    Version="0.2.0.0"
+    ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>Penlight</DisplayName>
+    <PublisherDisplayName>Ravando</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+    <Description>Draw over anything on your screen — live, without freezing it.</Description>
+  </Properties>
+
+  <Dependencies>
+    <!-- 17763 = Windows 10 1809. Penlight needs Windows.UI.Composition desktop
+         windows and the Magnification API, both comfortably older than this. -->
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+
+  <Applications>
+    <Application Id="Penlight" Executable="penlight.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="Penlight"
+        Description="Annotate your screen, sketch on whiteboards, highlight your cursor, spotlight and zoom — all over live content."
+        BackgroundColor="#101014"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <!-- No Square310x310Logo: Windows then also demands a Wide310x150Logo,
+             which Tauri's icon generator doesn't produce. -->
+        <uap:DefaultTile Square71x71Logo="Assets\Square71x71Logo.png" />
+      </uap:VisualElements>
+
+      <Extensions>
+        <!--
+          "Start with Windows" under MSIX.
+          The packaged build cannot use the Run registry key that
+          tauri-plugin-autostart writes (MSIX virtualizes it), so startup is
+          declared here instead. Enabled="false" means it ships opt-in: the user
+          turns it on from Windows Settings > Apps > Startup. Penlight detects
+          the packaged case and points at that instead of writing the registry.
+        -->
+        <uap5:Extension
+          Category="windows.startupTask"
+          Executable="penlight.exe"
+          EntryPoint="Windows.FullTrustApplication">
+          <uap5:StartupTask TaskId="PenlightStartup" Enabled="false" DisplayName="Penlight" />
+        </uap5:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <!--
+      Full trust: Penlight is a normal Win32 desktop app inside the package. It
+      needs this for its transparent always-on-top overlay windows, the
+      Magnification API used by the zoom lens, the passive low-level mouse hook
+      that positions the cursor halo, system-wide hotkeys, and reading/writing
+      its own settings and whiteboards under %APPDATA%.
+    -->
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

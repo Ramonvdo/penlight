@@ -21,3 +21,25 @@ pub fn reassert_topmost(window: &tauri::WebviewWindow) {
 
 #[cfg(not(windows))]
 pub fn reassert_topmost(_window: &tauri::WebviewWindow) {}
+
+/// True when running from an MSIX package (the Microsoft Store build).
+///
+/// Matters because a packaged app gets a virtualized registry: the Run key
+/// tauri-plugin-autostart writes is silently discarded, so "launch at login"
+/// has to come from the manifest's StartupTask, which the user opts into from
+/// Windows Settings instead.
+#[cfg(windows)]
+pub fn is_packaged() -> bool {
+    use windows_sys::Win32::Foundation::ERROR_INSUFFICIENT_BUFFER;
+    use windows_sys::Win32::Storage::Packaging::Appx::GetCurrentPackageFullName;
+    let mut len: u32 = 0;
+    // Asking with a zero-length buffer: a packaged process reports "buffer too
+    // small", an unpackaged one reports APPMODEL_ERROR_NO_PACKAGE.
+    let rc = unsafe { GetCurrentPackageFullName(&mut len, std::ptr::null_mut()) };
+    rc == ERROR_INSUFFICIENT_BUFFER
+}
+
+#[cfg(not(windows))]
+pub fn is_packaged() -> bool {
+    false
+}

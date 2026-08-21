@@ -75,6 +75,7 @@ pub fn run() {
             commands::board_rename,
             commands::board_delete,
             commands::board_panel_toggle,
+            commands::is_packaged,
         ])
         .build(tauri::generate_context!())
         .expect("failed to build Penlight")
