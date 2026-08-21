@@ -30,6 +30,7 @@ Built with [Tauri v2](https://v2.tauri.app) (Rust + WebView2). The cursor halo, 
 ## Features
 
 - **Annotate** — freehand pen, highlighter, arrows, lines, rectangles, ellipses, and text over any app. 5 favorite colors plus random gradient strokes, adjustable line weight, unlimited undo/redo, optional auto-erase per stroke (hold <kbd>Ctrl</kbd> to invert), <kbd>Shift</kbd> to constrain shapes, <kbd>Alt</kbd> to fill. The pen cursor is an ink preview — a dot in your current color at your current line weight.
+- **Drawing tablets** — pen and stylus input with pressure-sensitive strokes (Wacom and anything else Windows exposes as a pen). Press harder for a thicker line, or switch pressure off for uniform width; flip the pen over and the eraser end erases.
 - **Whiteboard** — persistent boards on an infinite canvas: wheel to pan, <kbd>Ctrl</kbd>+wheel to zoom (0.1–30×), autosaved to disk, with a board library for creating, renaming, and switching boards mid-presentation (<kbd>B</kbd>).
 - **Cursor highlight** — a ring, squircle, or rhombus halo around your cursor with left/right-click pulse animations. Runs on a dedicated native thread: ~0% idle CPU, composited at vsync.
 - **Spotlight** — dim the whole screen except a soft circle following your cursor.
@@ -94,6 +95,7 @@ Use **Display Capture**. Window Capture and Game Capture record a single app's s
 - The zoom lens cannot magnify the Start menu or some system flyouts (they render unmagnified; same limitation as ZoomIt).
 - While zoomed, clicks land at the *real* (unmagnified) positions — zoom is for showing, not clicking (same behavior as ZoomIt LiveZoom).
 - Flicker on some Intel iGPUs: enable *Settings → General → Disable GPU compositing* and restart.
+- Tablet not drawing as expected? Enable *Settings → General → Input diagnostics* and annotate: the overlay reports the live pointer type, pressure, buttons and event rate, which says immediately whether Windows is delivering pen events at all.
 
 ## Building from source
 
@@ -110,7 +112,7 @@ Releases are built by CI: pushing a `v*` tag runs [release.yml](.github/workflow
 ## Architecture (short version)
 
 - **Tray-only Tauri app**; all windows created from Rust. Rust owns all mode state.
-- **Annotation/whiteboard**: one transparent, click-through-toggleable WebView2 overlay per monitor (physical-pixel sized, height−1px to dodge Windows' fullscreen heuristics). Stroke engine is a display list rendered to two stacked canvases, smoothed with [perfect-freehand](https://github.com/steveruizok/perfect-freehand).
+- **Annotation/whiteboard**: one transparent, click-through-toggleable WebView2 overlay per monitor (physical-pixel sized, height−1px to dodge Windows' fullscreen heuristics). Stroke engine is a display list rendered to two stacked canvases, smoothed with [perfect-freehand](https://github.com/steveruizok/perfect-freehand). Pointer Events with coalesced sampling feed it, so pen pressure and tablet report rates come through intact; each stroke stores its own smoothing options so a reloaded board replays exactly as drawn.
 - **Halo + spotlight**: a native thread owning a `WS_EX_NOREDIRECTIONBITMAP` composition window spanning the virtual screen; visuals move via `Visual.Offset` at vsync. Input via `WH_MOUSE_LL` with a constant-time callback and a `GetCursorPos` watchdog.
 - **Zoom**: a `WC_MAGNIFIER` lens window on a 20 ms tick (the fullscreen Magnification API is deliberately avoided — it's invisible to screen capture).
 
