@@ -9,18 +9,17 @@
   package on ingestion — no code-signing certificate is needed to submit.
 
   ─────────────────────────────────────────────────────────────────────────────
-  The Identity values below are PLACEHOLDERS. Reserve the app name in Partner
-  Center, then copy the three values from
-  Partner Center > Product > Product identity into this file (they are not
-  secrets — they ship visible inside every installed copy — but they must match
-  Partner Center character-for-character or the upload is rejected).
+  The Identity values below are the real ones from
+  Partner Center > Product > Product identity (Store ID 9N7LJT9PPDZP). They are
+  not secrets — they are visible in every installed copy of the package — and
+  they must match Partner Center character-for-character or the upload is
+  rejected, so they live here rather than in someone's shell history.
 
-  Until then the package builds with a development identity: installable
-  locally for testing, rejected by Partner Center. `npm run pack:msix` prints
-  which mode it used.
+  Expected Package Family Name: Ravando.Penlight_36ex7sfbaqfcj
+  (the suffix is a hash of the Publisher string, so it double-checks that value)
 
-  MSIX_IDENTITY_NAME / MSIX_PUBLISHER / MSIX_PUBLISHER_DISPLAY_NAME override
-  these at pack time without editing the file.
+  MSIX_IDENTITY_NAME / MSIX_PUBLISHER / MSIX_PUBLISHER_DISPLAY_NAME still
+  override these at pack time if a second listing is ever needed.
   ─────────────────────────────────────────────────────────────────────────────
 -->
 
@@ -32,8 +31,8 @@
   IgnorableNamespaces="uap uap5 rescap">
 
   <Identity
-    Name="Penlight.Dev"
-    Publisher="CN=Penlight Development"
+    Name="Ravando.Penlight"
+    Publisher="CN=0FDF4166-D594-445A-AC0D-659012821ABB"
     Version="0.2.0.0"
     ProcessorArchitecture="x64" />
 
