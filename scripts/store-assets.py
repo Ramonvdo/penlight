@@ -138,8 +138,14 @@ def logos():
     print("Box art (1:1):")
     art(1080, 1080, True, OUT / "box-1080x1080.png")
     art(2160, 2160, True, OUT / "box-2160x2160.png")
-    print("Super hero art (16:9, no title text):")
-    art(1920, 1080, False, OUT / "hero-1920x1080.png")
+    print("Store display art (580x800):")
+    art(580, 800, True, OUT / "art-580x800.png")
+    print("16:9 art (1920x1080):")
+    # Titled version for slots that allow text.
+    art(1920, 1080, True, OUT / "hero-1920x1080.png")
+    # Microsoft asks that "Super hero art" specifically carry no product title
+    # (the Store draws its own over the top), so keep a clean copy for that slot.
+    art(1920, 1080, False, OUT / "hero-1920x1080-notext.png")
 
 
 # Caption per raw screenshot. The number prefix decides the order in the listing.
