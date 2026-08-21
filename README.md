@@ -14,6 +14,7 @@
 </p>
 
 <p align="center">
+  <a href="https://apps.microsoft.com/detail/9N7LJT9PPDZP"><img src="https://img.shields.io/badge/Microsoft_Store-Install-0067b8?logo=microsoftstore&logoColor=white" alt="Get Penlight from the Microsoft Store" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/Ramonvdo/penlight?style=flat" alt="License" /></a>
   <a href="https://github.com/Ramonvdo/penlight/releases/latest"><img src="https://img.shields.io/github/v/release/Ramonvdo/penlight?include_prereleases" alt="Latest release" /></a>
   <a href="https://github.com/Ramonvdo/penlight/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Ramonvdo/penlight/ci.yml?branch=main" alt="CI" /></a>
@@ -52,18 +53,23 @@ Built with [Tauri v2](https://v2.tauri.app) (Rust + WebView2). The cursor halo, 
 
 ## Download
 
-Grab the latest installer from the [**Releases**](https://github.com/Ramonvdo/penlight/releases/latest) page:
+<p align="center">
+  <a href="https://apps.microsoft.com/detail/9N7LJT9PPDZP">
+    <img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Download Penlight from the Microsoft Store" />
+  </a>
+</p>
 
-| OS | Installer |
+| | |
 |---|---|
-| **Windows 10/11 (x64)** | `Penlight_x.y.z_x64-setup.exe` |
+| **Microsoft Store** — recommended | [**Install Penlight**](https://apps.microsoft.com/detail/9N7LJT9PPDZP) · signed by Microsoft, no security warning, updates itself |
+| **Direct download** | [`Penlight_x.y.z_x64-setup.exe`](https://github.com/Ramonvdo/penlight/releases/latest) · per-user installer, no admin rights needed |
 
-The installer is per-user — no admin rights required.
+Same app either way, built from this repository. Windows 10/11, x64.
 
-> **SmartScreen note:** builds are not yet code-signed, so Windows may warn on
-> first launch ("Windows protected your PC"). Click **More info → Run anyway**,
-> verify the download against the release's `SHA256SUMS.txt`, or build from
-> source below.
+> **SmartScreen note — direct download only.** The `.exe` isn't code-signed, so Windows
+> may warn on first launch ("Windows protected your PC"). Click **More info → Run anyway**,
+> verify the download against the release's `SHA256SUMS.txt`, or install from the Store,
+> where Microsoft signs the package for you.
 
 ## Default shortcuts
 
