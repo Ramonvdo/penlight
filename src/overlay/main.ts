@@ -3,6 +3,7 @@ import { normalizeHex } from "../shared/color";
 import { api, onAnnotateClear, onSettingsChanged, onStateChanged } from "../shared/ipc";
 import type { BoardFile, Settings, Snapshot } from "../shared/types";
 import { initBoardPanel } from "./board-panel";
+import { InputHud } from "./input-hud";
 import { AutoEraser } from "./engine/autoerase";
 import { CameraController } from "./engine/camera";
 import type { Item } from "./engine/display-list";
@@ -40,12 +41,14 @@ const FALLBACK_SETTINGS: Settings = {
   launchAtLogin: false,
   haloOnLaunch: false,
   disableGpuCompositing: false,
+  inputDiagnostics: false,
   annotate: {
     favoriteColors: ["#2FB4F6", "#EF5350", "#5DC963", "#FFD52E", "#9B59E8"],
     defaultWeight: 6,
     autoEraseSecs: 0,
     boardColor: "#FFFFFF",
     textSize: 28,
+    pressureSensitivity: true,
   },
   whiteboard: { onOpen: "resume", defaultBackground: "#FFFFFF" },
   cursor: {
@@ -122,6 +125,12 @@ function sanitizeColor(raw: unknown): Item["color"] {
   return { flat: "#2FB4F6" };
 }
 
+/** A finite number clamped into range, or undefined so a default applies. */
+function optionalNumber(value: unknown, min: number, max: number): number | undefined {
+  if (typeof value !== "number" || !Number.isFinite(value)) return undefined;
+  return Math.min(Math.max(value, min), max);
+}
+
 function sanitizeItems(raw: unknown[]): Item[] {
   const out: Item[] = [];
   for (const value of raw) {
@@ -145,6 +154,12 @@ function sanitizeItems(raw: unknown[]): Item[] {
         color,
         weight,
         highlighter: item.highlighter === true,
+        // Absent on strokes drawn before pen support — strokeOutline() falls
+        // back to the mouse defaults.
+        streamline: optionalNumber(item.streamline, 0, 1),
+        thinning: optionalNumber(item.thinning, -1, 1),
+        simulatePressure:
+          typeof item.simulatePressure === "boolean" ? item.simulatePressure : undefined,
       });
     } else if (
       item.kind === "shape" &&
@@ -330,6 +345,17 @@ function forgetBoard(id: string): void {
   if (currentBoard?.id === id) currentBoard = null;
 }
 
+const inputHud = new InputHud();
+
+// A pen's barrel button (and touch press-and-hold) otherwise pops the native
+// WebView2 menu over the annotation. Editable targets keep theirs so right-
+// click paste still works in the text editor and the board rename field.
+document.addEventListener("contextmenu", (e) => {
+  const t = e.target as HTMLElement | null;
+  if (t?.isContentEditable || t?.tagName === "INPUT" || t?.tagName === "TEXTAREA") return;
+  e.preventDefault();
+});
+
 const boardPanel = initBoardPanel({
   isHost: () => isHost,
   activeBoardId,
@@ -450,6 +476,7 @@ function applyState(s: Snapshot): void {
 
 function applySettings(s: Settings): void {
   settings = s;
+  inputHud.setEnabled(s.inputDiagnostics);
   applyBoardChrome();
   updateDrawCursor();
 }

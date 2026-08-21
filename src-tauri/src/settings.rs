@@ -32,6 +32,8 @@ pub struct AnnotateCfg {
     pub auto_erase_secs: u8,
     pub board_color: String,
     pub text_size: u8,
+    /// Vary stroke width with tablet-pen pressure.
+    pub pressure_sensitivity: bool,
 }
 
 impl Default for AnnotateCfg {
@@ -48,6 +50,7 @@ impl Default for AnnotateCfg {
             auto_erase_secs: 0,
             board_color: "#FFFFFF".into(),
             text_size: 28,
+            pressure_sensitivity: true,
         }
     }
 }
@@ -155,6 +158,8 @@ pub struct Settings {
     pub launch_at_login: bool,
     pub halo_on_launch: bool,
     pub disable_gpu_compositing: bool,
+    /// Show a live pointer-event readout on the overlay (tablet troubleshooting).
+    pub input_diagnostics: bool,
     pub annotate: AnnotateCfg,
     pub whiteboard: WhiteboardCfg,
     pub cursor: CursorCfg,
@@ -171,6 +176,7 @@ impl Default for Settings {
             launch_at_login: false,
             halo_on_launch: false,
             disable_gpu_compositing: false,
+            input_diagnostics: false,
             annotate: AnnotateCfg::default(),
             whiteboard: WhiteboardCfg::default(),
             cursor: CursorCfg::default(),

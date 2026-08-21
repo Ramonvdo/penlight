@@ -149,7 +149,7 @@ export function drawItem(ctx: CanvasRenderingContext2D, item: Item): void {
     if (item.kind === "stroke") {
       if (item.highlighter) ctx.globalAlpha = 0.45;
       ctx.fillStyle = paint;
-      ctx.fill(strokeOutline(item.points, item.weight, item.highlighter));
+      ctx.fill(strokeOutline(item));
     } else if (item.kind === "shape") {
       drawShape(ctx, item, paint);
     } else {

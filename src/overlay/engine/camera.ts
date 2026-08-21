@@ -122,6 +122,9 @@ export class CameraController {
 
   private onDown(e: PointerEvent): void {
     if (!this.active()) return;
+    // Some tablet drivers map a barrel button to middle-click; a barrel press
+    // must not start a board pan mid-annotation.
+    if (e.pointerType === "pen" && e.button === 1) return;
     if (e.button === 1 || (e.button === 0 && this.spaceHeld)) {
       this.panning = true;
       this.panPointer = e.pointerId;

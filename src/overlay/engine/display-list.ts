@@ -17,6 +17,16 @@ export interface StrokeItem {
   color: Color;
   weight: number;
   highlighter: boolean;
+  /**
+   * perfect-freehand options captured at draw time. The committed canvas
+   * re-runs the outline on every redraw, so these travel with the stroke —
+   * otherwise a board reloaded from disk would render differently from how it
+   * was drawn (a pen stroke's low streamline, a uniform-width stroke, …).
+   * Absent on strokes saved before pen support; defaults apply.
+   */
+  streamline?: number;
+  thinning?: number;
+  simulatePressure?: boolean;
   expiresAt?: number;
 }
 

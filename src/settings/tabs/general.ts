@@ -50,6 +50,19 @@ export function generalTab(ctx: TabCtx): TabView {
           ),
         ),
       ),
+      row(
+        "Input diagnostics",
+        "Show a live readout of pointer events while annotating — useful when a drawing tablet or stylus misbehaves.",
+        use(
+          toggle(
+            () => s().inputDiagnostics,
+            (v) => {
+              s().inputDiagnostics = v;
+              ctx.commit();
+            },
+          ),
+        ),
+      ),
     ]),
   );
   return { el: root, refresh: refreshAll };

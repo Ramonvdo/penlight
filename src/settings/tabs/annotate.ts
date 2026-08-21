@@ -1,5 +1,5 @@
 import type { TabCtx, TabView } from "../ui";
-import { collector, color, h, row, section, select, slider } from "../ui";
+import { collector, color, h, row, section, select, slider, toggle } from "../ui";
 
 const AUTO_ERASE_OPTIONS = [
   { value: "0", label: "Off" },
@@ -50,6 +50,19 @@ export function annotateTab(ctx: TabCtx): TabView {
             },
             format: (v) => `${v} px`,
           }),
+        ),
+      ),
+      row(
+        "Pen pressure",
+        "Vary stroke width with how hard you press. Applies to drawing tablets and styluses; a mouse always uses a natural taper.",
+        use(
+          toggle(
+            () => s().annotate.pressureSensitivity,
+            (v) => {
+              s().annotate.pressureSensitivity = v;
+              ctx.commit();
+            },
+          ),
         ),
       ),
       row(

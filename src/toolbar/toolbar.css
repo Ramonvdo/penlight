@@ -15,6 +15,8 @@ body {
   font-family: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
   user-select: none;
   -webkit-user-select: none;
+  /* Pen/touch taps on tool buttons must not wait for a gesture to resolve. */
+  touch-action: manipulation;
 }
 
 #toolbar {

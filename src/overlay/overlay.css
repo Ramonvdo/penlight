@@ -9,6 +9,10 @@ body {
   height: 100%;
   overflow: hidden;
   background: transparent;
+  /* Without this the OS/WebView2 claims pen and touch drags for its own
+     pan/zoom gestures and never delivers them here — tablet pens draw
+     nothing at all. Carved out below wherever a surface must still scroll. */
+  touch-action: none;
 }
 
 body {
@@ -64,11 +68,13 @@ body.grabbing[data-tool] {
   inset: 0;
   z-index: 0;
   background: #fff;
+  touch-action: none;
 }
 
 canvas {
   position: fixed;
   inset: 0;
+  touch-action: none;
 }
 
 #committed {
@@ -84,6 +90,23 @@ canvas {
   inset: 0;
   z-index: 3;
   pointer-events: none;
+}
+
+#input-hud {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 6;
+  pointer-events: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(17, 17, 20, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: #d6f5c6;
+  font-family: Consolas, "Cascadia Mono", monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre;
 }
 
 #board-panel {
@@ -103,6 +126,8 @@ canvas {
   font-size: 13px;
   padding: 10px;
   cursor: default;
+  /* The board list scrolls, so it opts back into vertical panning. */
+  touch-action: pan-y;
 }
 
 .bp-head {
@@ -236,6 +261,8 @@ canvas {
   min-width: 8px;
   padding: 2px 6px;
   pointer-events: auto;
+  /* Caret placement and text selection need normal tap handling. */
+  touch-action: manipulation;
   outline: 1.5px dashed rgba(255, 255, 255, 0.55);
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.15);

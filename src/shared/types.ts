@@ -28,6 +28,7 @@ export interface AnnotateCfg {
   autoEraseSecs: number;
   boardColor: string;
   textSize: number;
+  pressureSensitivity: boolean;
 }
 
 export interface CursorCfg {
@@ -67,6 +68,7 @@ export interface Settings {
   launchAtLogin: boolean;
   haloOnLaunch: boolean;
   disableGpuCompositing: boolean;
+  inputDiagnostics: boolean;
   annotate: AnnotateCfg;
   whiteboard: WhiteboardCfg;
   cursor: CursorCfg;
