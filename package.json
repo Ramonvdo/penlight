@@ -27,7 +27,7 @@
     "pack:msix": "node scripts/pack-msix.mjs"
   },
   "dependencies": {
-    "@tauri-apps/api": "^2.9.0",
+    "@tauri-apps/api": "^2.12.3",
     "perfect-freehand": "^1.2.2"
   },
   "devDependencies": {
